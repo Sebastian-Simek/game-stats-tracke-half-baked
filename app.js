@@ -10,8 +10,6 @@ const save = document.getElementById('save-game');
 let stats = [];
 let games = [];
 
-// IMPURE RENDER FUNCTIONS
-// YOUR CODE MUST CALL THESE FUNCTIONS
 function renderGames() {
     gameList.textContent = '';
     for (let game of games) {
@@ -34,23 +32,32 @@ function resetStats() {
 }
 
 form.addEventListener('submit', (e) => {
-    // Step 1 - add code to track each submission to the stats
-    // Create an object to "model" you statistic like the following:
-    // { player: 'Bob', points: 2 }
-    // Hint -- create the object from the form, push it onto the stats array, then call renderStats
+    e.preventDefault();
+    const userData = new FormData(form);
+    let user = {
+        player: userData.get('player'),
+        points: userData.get('points'),
+    };
+    stats.push(user);
+    renderStats();
+    form.reset();
 });
 
 remove.addEventListener('click', () => {
-    // Step 2 -- add code to allow users to remove the most recent stat
-    // Hint -- how do you remove an element from an array?
-    // Hint -- how can we rerender the stats using a function above?
+    stats.pop(); 
+    renderStats();
 });
 
 save.addEventListener('click', () => {
-    // Step 3 - add code to allow users to save the state
-    // Loop through the list of stats and add up the total points scored
-    // Create a new object with the game number and the total points
-    // { number: games.length + 1, totalPoints: totalPoints }
-    // Push the new object onto the games array then call renderGames
-    // reset the stats with resetStats
+    let sumPoints = 0;
+    for (let iOfStats of stats){
+        sumPoints += Number(iOfStats.points);
+    }
+    let game = {
+        number: games.length + 1,
+        totalPoints: sumPoints,
+    };
+    games.push(game);
+    renderGames();
+    resetStats();
 });
