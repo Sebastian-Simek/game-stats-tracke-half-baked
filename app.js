@@ -10,8 +10,6 @@ const save = document.getElementById('save-game');
 let stats = [];
 let games = [];
 
-// IMPURE RENDER FUNCTIONS
-// YOUR CODE MUST CALL THESE FUNCTIONS
 function renderGames() {
     gameList.textContent = '';
     for (let game of games) {
